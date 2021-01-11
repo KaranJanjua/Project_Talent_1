@@ -15,15 +15,15 @@ const Nav_Menu = (props) => {
 
   const handleItemClick = (e, { name }) => {
     setactiveItem(name);
-    history.push("/" + name + "");
+    history.push(`/${name}`);
   };
 
   return (
     <Menu className="Navbar" inverted>
       <Menu.Item
-        name="React"
-        active={activeItem === "React"}
-       // onClick={handleItemClick}
+        name=""
+        active={activeItem === "Home"}
+        onClick={handleItemClick}
       >
         Home
       </Menu.Item>
@@ -59,9 +59,6 @@ const Nav_Menu = (props) => {
       >
         Stores
       </Menu.Item>
-
-  
-
     
     </Menu>
   );

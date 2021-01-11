@@ -11,7 +11,7 @@ const Delete_ProductModal = (props) => {
         handelModal(false);
       })
       .catch((error) => {
-           console.log(` Failed to delete `);
+        alert("Product Already exist in the Sales Database. Please clear the associated sales before trying again.");
       });
   };
 

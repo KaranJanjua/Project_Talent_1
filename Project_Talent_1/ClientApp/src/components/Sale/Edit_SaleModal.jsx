@@ -1,6 +1,6 @@
 import Axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Button, Form, Modal,Message } from "semantic-ui-react";
+import { Button, Form, Modal, Message } from "semantic-ui-react";
 import Select from "react-select";
 
 const Edit_SaleModal = (props) => {
@@ -24,12 +24,16 @@ const Edit_SaleModal = (props) => {
   const [Store_Id, setStore_Id] = useState();
 
   useEffect(() => {
-    if (Customers) {
+    if (Sale != null && Customers != null) {
+      setNewDate(Sale.dateSold);
+      setCustomer_Id(Sale.customerId);
+      setProduct_Id(Sale.productId);
+      setStore_Id(Sale.storeId);
       GetCustomers();
       GetProducts();
       GetStores();
     }
-  }, [Customers]);
+  }, [Sale],[Customers]);
 
   const GetCustomers = () => {
     Axios.get("/Customers/GetCustomer").then((response) => {
@@ -38,7 +42,6 @@ const Edit_SaleModal = (props) => {
         value: d.id,
         label: d.name,
       }));
-
       setCust_Selection(options);
     });
   };
@@ -98,8 +101,7 @@ const Edit_SaleModal = (props) => {
     }
   };
   const EditSale = (id) => {
-    if (Customer_Id !=null && Product_Id !=null && Store_Id !=null){
-
+    if (Customer_Id != null && Product_Id != null && Store_Id != null) {
       Axios.put("/Sales/PutSales/" + Sale.id, {
         id: id,
         customerId: Customer_Id,
@@ -107,17 +109,16 @@ const Edit_SaleModal = (props) => {
         storeId: Store_Id,
         dateSold: currentDate,
       })
-      .then((response) => {
-        handelModal(false);
-      })
-      .catch((error) => {
-        console.log(` Failed to Update Error:` + error);
-      });
+        .then((response) => {
+          handelModal(false);
+        })
+        .catch((error) => {
+          console.log(` Failed to Update Error:` + error);
+        });
     } else {
-      
     }
   };
-    
+
   if (Sale) {
     return (
       <Modal open={open}>
@@ -127,6 +128,7 @@ const Edit_SaleModal = (props) => {
             <Form.Field>
               <label>Date</label>
               <input
+                placeholder=""
                 type="date"
                 onChange={(event) => {
                   return handleChange(event, "Date");
@@ -135,34 +137,63 @@ const Edit_SaleModal = (props) => {
             </Form.Field>
 
             <Form.Field>
-              <label>Customer</label>
-              <Select
-                value={Customer_Id}
-                options={Cust_Selection}
-                onChange={(event) => {
-                  return handleChange(event, "Customer");
-                }}
-              />
+            {Customers.map((c) => {
+              if (c.id === Customer_Id) {
+                return(
+                  <Form.Field>
+                  <label>Customer</label>
+                  <Select
+                    placeholder={c.name}
+                    options={Cust_Selection}
+                    onChange={(event) => {
+                      return handleChange(event, "Customer");
+                    }}
+                  />
+                  </Form.Field>
+                );
+              }
+            })}
             </Form.Field>
-
             <Form.Field>
-              <label>Product</label>
-              <Select
-                options={Product_selection}
-                onChange={(event) => {
-                  return handleChange(event, "Product");
-                }}
-              />
+            {Products.map((p) => {
+              if (p.id === Product_Id) {
+                return(
+                  <Form.Field>
+                  <label>Product</label>
+                  <Select
+                    placeholder={p.name}
+                    options={Product_selection}
+                    onChange={(event) => {
+                      return handleChange(event, "Product");
+                    }}
+                  />
+                  </Form.Field>
+                );
+              }
+            })}
             </Form.Field>
-
+                
+           
             <Form.Field>
-              <label>Store</label>
-              <Select
-                options={Store_selection}
-                onChange={(event) => {
-                  return handleChange(event, "Store");
-                }}
-              />
+            {Store.map((st) => {
+              if (st.id === Store_Id) {
+                return(
+                  <Form.Field>
+                  
+                  <label>Store</label>
+                  <Select
+                  placeholder={st.name}
+                  options={Store_selection}
+                  onChange={(event) => {
+                    return handleChange(event, "Store");
+                  }}
+                  /> 
+                  </Form.Field>
+                  
+                  );
+                }
+            })}
+               
             </Form.Field>
           </Form>
         </Modal.Content>

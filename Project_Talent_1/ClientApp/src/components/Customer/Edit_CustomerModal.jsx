@@ -47,7 +47,6 @@ const Edit_CustomerModal = (props) => {
         handelModal(false);
       })
       .catch((error) => {
-        console.log(` Failed to Update Error:`+ error );
       });
     }else {
       

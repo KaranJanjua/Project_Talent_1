@@ -34,7 +34,6 @@ const Customer = (props) => {
   };
 
   const handleDelete = (Customer_edit) => {
-    console.log("Handeling delete");
     setCustomer(Customer_edit);
     setopen_Del(true);
   };

@@ -11,6 +11,8 @@ const Delete_StoreModal = (props) => {
         handleModal(false);
       })
       .catch((error) => {
+        alert("Store Already exists in the Sales Database. Please clear the associated sales before trying again.");
+
       });
   };
 
