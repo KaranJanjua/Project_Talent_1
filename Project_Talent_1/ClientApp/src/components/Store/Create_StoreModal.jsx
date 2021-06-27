@@ -4,8 +4,8 @@ import { Button, Form, Modal } from "semantic-ui-react";
 
 const Create_StoreModal = (props) => {
   const { open, handleModal } = props;
-  const [name, setname] = useState();
-  const [address, setaddress] = useState();
+  const [name, setname] = useState('');
+  const [address, setaddress] = useState('');
 
   const handleChange = (e, field) => {
     switch (field) {
@@ -24,13 +24,15 @@ const Create_StoreModal = (props) => {
   };
 
   const CreateStore = () => {
-    if(name !=null && address !=null){
+    if(name !='' && address !=''){
 
       Axios.post("/Stores/PostStore", {
         Name: name,
         Address: address,
       })
       .then((response) => {
+        setname('');
+        setaddress('');
         handleModal(false);
       })
       .catch((error) => {

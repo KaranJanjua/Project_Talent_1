@@ -4,8 +4,8 @@ import { Button, Form, Modal } from "semantic-ui-react";
 
 const Edit_StoreModal = (props) => {
   const { open, handleModal, Store } = props;
-  const [name, setname] = useState();
-  const [address, setaddress] = useState();
+  const [name, setname] = useState('');
+  const [address, setaddress] = useState('');
 
   useEffect(() => {
     if(Store){
@@ -31,7 +31,7 @@ const Edit_StoreModal = (props) => {
   };
 
   const EditStore = (id)=>{
-    if(name!=null && address != null){
+    if(name!='' && address != ''){
 
       Axios.put('/Stores/PutStore/'+Store.id,
       {
@@ -41,6 +41,8 @@ const Edit_StoreModal = (props) => {
         
       })
       .then((response) => {
+        setname('');
+        setaddress('');
         handleModal(false);
       })
       .catch((error) => {

@@ -4,8 +4,8 @@ import { Button, Form, Modal } from "semantic-ui-react";
 
 const Edit_CustomerModal = (props) => {
   const { open, handelModal, Customer } = props;
-  const [name, setname] = useState();
-  const [address, setaddress] = useState();
+  const [name, setname] = useState('');
+  const [address, setaddress] = useState('');
 
   useEffect(() => {
     if(Customer){
@@ -33,7 +33,7 @@ const Edit_CustomerModal = (props) => {
 
   const EditCustomer = (id)=>{
 
-    if (name != null && address != null){
+    if (name != '' && address != ''){
 
       Axios.put('/Customers/PutCustomer/'+Customer.id,
       {
@@ -43,6 +43,8 @@ const Edit_CustomerModal = (props) => {
         
       })
       .then((response) => {
+        setaddress('');
+        setname('');
         console.log(`Customer ${response.data.name} updated succesfully`);
         handelModal(false);
       })

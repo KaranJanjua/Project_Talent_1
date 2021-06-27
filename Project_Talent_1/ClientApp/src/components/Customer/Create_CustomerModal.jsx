@@ -4,8 +4,8 @@ import { Button, Form, Modal,Message } from "semantic-ui-react";
 
 const Create_CustomerModal = (props) => {
   const { open, handelModal } = props;
-  const [name, setname] = useState();
-  const [address, setaddress] = useState();
+  const [name, setname] = useState('');
+  const [address, setaddress] = useState('');
 
   const handleChange = (e, field) => {
     switch (field) {
@@ -25,13 +25,15 @@ const Create_CustomerModal = (props) => {
 
   const CreateCustomer = () => {
 
-    if(name != null && address != null){
+    if(name != '' && address != ''){
 
       Axios.post("/Customers/PostCustomer", {
         Name: name,
         Address: address,
       })
       .then((response) => {
+        setname('');
+        setaddress('');
         handelModal(false);
       })
       .catch((error) => {
